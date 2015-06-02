@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 00:11:42 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/03 01:06:04 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LEM_IN_H
 
 # include "libft.h"
+
+# define STATIC		static inline
 
 typedef struct	s_room
 {

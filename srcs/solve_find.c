@@ -6,13 +6,13 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 00:50:40 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/03 01:16:39 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
+STATIC t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 {
 	int				i;
 	int				j;
@@ -34,29 +34,32 @@ static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 	return (false);
 }
 
-static int		solve_length(t_lem *lem, int *solve, int len)
+STATIC void		solve_save(t_lem *m, int *solve, int len, t_array *a)
 {
 	int				i;
 	int				sum;
+	void			*tmp;
 
 	sum = 0;
 	i = -1;
 	while (++i < len)
-		sum += lem->paths[solve[i]].length;
-	return (sum);
+		sum += m->paths[solve[i]].length;
+	i = -1;
+	while (++i < a->length)
+		if (solve_cmp(AG(t_solve*, a, i), &(t_solve){NULL, len, sum}) == 0)
+			return ;
+	tmp = ft_emalloc(S(int, len) + sizeof(t_solve));
+	*((t_solve*)tmp) = (t_solve){tmp + sizeof(t_solve), len, sum};
+	ft_memcpy(tmp + sizeof(t_solve), solve, S(int, len));
+	ft_arrayadd(a, tmp);
 }
 
 static void		track_solve(t_lem *m, int path, int *solve, int len, t_array *a)
 {
 	int				i;
-	void			*tmp;
 
 	solve[len++] = path;
-	tmp = ft_emalloc(S(int, len) + sizeof(t_solve));
-	ft_memcpy(tmp, &(t_solve){tmp + sizeof(t_solve), len,
-		solve_length(m, solve, len)}, sizeof(t_solve));
-	ft_memcpy(tmp + sizeof(t_solve), solve, S(int, len));
-	ft_arrayadd(a, tmp);
+	solve_save(m, solve, len, a);
 	i = -1;
 	while (++i < m->path_count)
 		if (!path_collide(m, i, solve, len))

@@ -6,13 +6,13 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/31 01:21:10 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 00:41:38 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/03 01:06:18 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void		print_rooms(t_lem *lem, int flag)
+STATIC void		print_rooms(t_lem *lem, int flag)
 {
 	int				i;
 
@@ -23,7 +23,7 @@ static void		print_rooms(t_lem *lem, int flag)
 				lem->rooms[i].x, lem->rooms[i].y);
 }
 
-static void		print_links(t_lem *lem)
+STATIC void		print_links(t_lem *lem)
 {
 	int				i;
 	int				j;
