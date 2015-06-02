@@ -6,22 +6,11 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 18:03:27 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/02 19:21:18 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/02 23:08:21 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-static inline t_bool	has_path(int room, int *path, int len)
-{
-	int				i;
-
-	i = -1;
-	while (++i < len)
-		if (room == path[i])
-			return (true);
-	return (false);
-}
 
 static void		track_path(t_lem *m, int room, int *path, int len, t_tab *all)
 {
@@ -33,13 +22,15 @@ static void		track_path(t_lem *m, int room, int *path, int len, t_tab *all)
 		ft_tabadd(all, &(t_path){ft_memdup(path, S(int, len)), len});
 		return ;
 	}
+	m->rooms[room].flags |= ROOM_PATH;
 	j = -1;
 	while (++j < room)
-		if (m->links[room][j] && !has_path(j, path, len - 1))
+		if (m->links[room][j] && !(m->rooms[j].flags & ROOM_PATH))
 			track_path(m, j, path, len, all);
 	while (++j < m->room_count)
-		if (m->links[j][room] && !has_path(j, path, len - 1))
+		if (m->links[j][room] && !(m->rooms[j].flags & ROOM_PATH))
 			track_path(m, j, path, len, all);
+	m->rooms[room].flags &= ~(ROOM_PATH);
 }
 
 void			find_paths(t_lem *lem)
