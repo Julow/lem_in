@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:26:24 by juloo             #+#    #+#             */
-/*   Updated: 2015/05/31 02:10:34 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/02 18:57:37 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static t_bool	build_links(t_lem *lem, t_lem_raw *raw)
 	int				i;
 	t_raw_link		*tmp;
 
-	if (lem->length <= 0 || raw->links.length <= 0)
+	if (lem->room_count <= 0 || raw->links.length <= 0)
 		return (false);
-	lem->links = MAL(int*, lem->length);
+	lem->links = MAL(char*, lem->room_count);
 	i = -1;
-	while (++i < lem->length)
+	while (++i < lem->room_count)
 	{
-		lem->links[i] = MAL(int, i);
-		ft_bzero(lem->links[i], S(int, i));
+		lem->links[i] = MAL(char, i);
+		ft_bzero(lem->links[i], S(char, i));
 	}
 	i = -1;
 	while (++i < raw->links.length)
@@ -47,17 +47,27 @@ static t_bool	build_rooms(t_lem *lem, t_lem_raw *raw)
 	int				i;
 
 	lem->rooms = (t_room*)raw->rooms.data;
-	lem->length = raw->rooms.length;
+	lem->room_count = raw->rooms.length;
+	lem->start_room = -1;
+	lem->end_room = -1;
 	i = -1;
 	flags = 0;
-	while (++i < lem->length)
-		if (lem->rooms[i].flags & flags)
-			return (false);
-		else
-			flags |= lem->rooms[i].flags;
-	if ((flags & ROOM_START) && (flags & ROOM_END))
-		return (true);
-	return (false);
+	while (++i < lem->room_count)
+		if (lem->rooms[i].flags & ROOM_START)
+		{
+			if (lem->start_room != -1)
+				return (false);
+			lem->start_room = i;
+		}
+		else if (lem->rooms[i].flags & ROOM_END)
+		{
+			if (lem->end_room != -1)
+				return (false);
+			lem->end_room = i;
+		}
+	if (lem->start_room == -1 || lem->end_room == -1)
+		return (false);
+	return (true);
 }
 
 t_bool			parser(int fd, t_lem *lem)
