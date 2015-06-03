@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/31 01:21:10 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 01:06:18 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/03 11:39:21 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ STATIC void		print_rooms(t_lem *lem, int flag)
 	i = -1;
 	while (++i < lem->room_count)
 		if (lem->rooms[i].flags == flag)
-			P("(%d) %s %d %d\n", i, lem->rooms[i].name,
+			P("%s %d %d\n", lem->rooms[i].name,
 				lem->rooms[i].x, lem->rooms[i].y);
 }
 

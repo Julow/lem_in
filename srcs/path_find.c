@@ -6,11 +6,57 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 18:03:27 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/02 23:08:21 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/03 15:35:36 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include <stdlib.h>
+
+t_bool	path_contains(t_path *big, t_path *small)
+{
+	int				i;
+	int				j;
+	int				max;
+
+	if (big->length < small->length)
+		return (path_contains(small, big));
+	max = big->length - small->length;
+	i = -1;
+	while (++i < max)
+	{
+		j = 0;
+		while (++j < (small->length - 1))
+			if (big->rooms[i + j] != small->rooms[j])
+				break ;
+		if (j == small->length - 1)
+			return (true);
+	}
+	return (false);
+}
+
+STATIC void		add_path(int *path, int len, t_tab *all)
+{
+	int				i;
+	t_path			curr;
+
+	curr = (t_path){path, len};
+	i = -1;
+	while (++i < all->length)
+		if (!path_contains(&curr, TG(t_path, *all, i)))
+			continue ;
+		else if (len > TG(t_path, *all, i)->length)
+			return ;
+		else if (len == TG(t_path, *all, i)->length)
+			ft_fdprintf(2, "OMGLOL\n");
+		else
+		{
+			free(TG(t_path, *all, i)->rooms);
+			ft_tabrem(all, i--, 1);
+		}
+	curr.rooms = ft_memdup(path, S(int, len));
+	ft_tabadd(all, &curr);
+}
 
 static void		track_path(t_lem *m, int room, int *path, int len, t_tab *all)
 {
@@ -19,7 +65,7 @@ static void		track_path(t_lem *m, int room, int *path, int len, t_tab *all)
 	path[len++] = room;
 	if (room == m->end_room)
 	{
-		ft_tabadd(all, &(t_path){ft_memdup(path, S(int, len)), len});
+		add_path(path, len, all);
 		return ;
 	}
 	m->rooms[room].flags |= ROOM_PATH;
