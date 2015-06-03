@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 14:03:22 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/03 16:07:03 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "libft.h"
 
 # define STATIC		static inline
+
+# define ERROR		"ERROR\n"
 
 typedef struct	s_room
 {
@@ -32,13 +34,6 @@ typedef struct	s_path
 	int				length;
 }				t_path;
 
-typedef struct	s_solve
-{
-	int				*paths;
-	int				length;
-	int				sum;
-}				t_solve;
-
 typedef struct	s_lem
 {
 	t_room			*rooms;
@@ -48,7 +43,7 @@ typedef struct	s_lem
 	char			**links;
 	t_path			*paths;
 	int				path_count;
-	t_solve			**solves;
+	int				*solves;
 	int				solve_count;
 	int				ant_count;
 }				t_lem;
@@ -59,8 +54,7 @@ typedef struct	s_lem
 
 void			find_paths(t_lem *lem);
 
-void			find_solves(t_lem *lem);
-int				solve_cmp(t_solve *s1, t_solve *s2);
+t_bool			find_solves(t_lem *lem);
 
 void			print_lem(t_lem *lem);
 

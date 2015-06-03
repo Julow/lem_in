@@ -6,13 +6,13 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 11:38:02 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/03 18:38:11 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-STATIC t_bool	path_collide(t_lem *m, int path, int *solve, int len)
+static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 {
 	int				i;
 	int				j;
@@ -34,48 +34,92 @@ STATIC t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 	return (false);
 }
 
-STATIC void		solve_save(t_lem *m, int *solve, int len, t_array *a)
+static int		solve_complexity(t_lem *lem, int *solve, int len)
 {
+	int				min;
+	int				max;
 	int				i;
-	int				sum;
-	void			*tmp;
 
-	sum = 0;
-	i = -1;
+	min = lem->paths[solve[0]].length;
+	max = lem->paths[solve[0]].length;
+	i = 0;
 	while (++i < len)
-		sum += m->paths[solve[i]].length;
-	i = -1;
-	while (++i < a->length)
-		if (solve_cmp(AG(t_solve*, a, i), &(t_solve){NULL, len, sum}) == 0)
-			return ;
-	tmp = ft_emalloc(S(int, len) + sizeof(t_solve));
-	*((t_solve*)tmp) = (t_solve){tmp + sizeof(t_solve), len, sum};
-	ft_memcpy(tmp + sizeof(t_solve), solve, S(int, len));
-	ft_arrayadd(a, tmp);
+		if (lem->paths[solve[i]].length < min)
+			min = lem->paths[solve[i]].length;
+		else if (lem->paths[solve[i]].length > max)
+			max = lem->paths[solve[i]].length;
+	max++;
+	min++;
+	min += (max - min + lem->ant_count + 1) / 2;
+	// if (len == 1)
+		// min = (lem->paths[solve[0]].length + lem->ant_count - 2);
+	// min = (max - min + lem->ant_count + 1) / len + min;
+	{
+		int			i;
+		int			j;
+
+		P("%{gray}Complexity: (%d)", len);
+		i = -1;
+		while (++i < len)
+		{
+			if (i > 0)
+				PS(", ");
+			j = -1;
+			while (++j < lem->paths[solve[i]].length)
+				P(" %s", lem->rooms[lem->paths[solve[i]].rooms[j]].name);
+		}
+		P(" = %d", min), NL;
+	}
+	return (min);
 }
 
-static void		track_solve(t_lem *m, int path, int *solve, int len, t_array *a)
+STATIC void		solve_save(t_lem *lem, int *solve, int len)
 {
-	int				i;
+	{
+		int			i;
+		int			j;
 
+		P("%{gray}Test solution: (%d)\n", len);
+		i = -1;
+		while (++i < len)
+		{
+			j = -1;
+			while (++j < lem->paths[solve[i]].length)
+				P(" %s", lem->rooms[lem->paths[solve[i]].rooms[j]].name);
+			NL;
+		}
+	}
+	if (lem->solve_count < 0 || solve_complexity(lem, solve, len)
+		< solve_complexity(lem, lem->solves, lem->solve_count))
+	{
+		ft_memcpy(lem->solves, solve, S(int, len));
+		lem->solve_count = len;
+		PS("SAVED"), NL;
+	}
+}
+
+static void		track_solve(t_lem *lem, int path, int *solve, int len)
+{
 	solve[len++] = path;
-	solve_save(m, solve, len, a);
-	i = -1;
-	while (++i < m->path_count)
-		if (!path_collide(m, i, solve, len))
-			track_solve(m, i, solve, len, a);
+	solve_save(lem, solve, len);
+	while (++path < lem->path_count)
+		if (!path_collide(lem, path, solve, len))
+			track_solve(lem, path, solve, len);
 }
 
-void			find_solves(t_lem *lem)
+t_bool			find_solves(t_lem *lem)
 {
-	t_array			solves;
+	int				tmp_best[lem->path_count];
 	int				tmp_solve[lem->path_count];
 	int				i;
 
-	ft_arrayini(&solves);
+	lem->solves = tmp_best;
+	lem->solve_count = -1;
 	i = -1;
 	while (++i < lem->path_count)
-		track_solve(lem, i, tmp_solve, 0, &solves);
-	lem->solves = (t_solve**)solves.data;
-	lem->solve_count = solves.length;
+		track_solve(lem, i, tmp_solve, 0);
+	if (lem->solve_count < 0)
+		return (false);
+	lem->solves = ft_memdup(tmp_best, S(int, lem->solve_count));
+	return (true);
 }

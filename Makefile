@@ -45,11 +45,10 @@ C_HEADS := -Iinclude -Ilibft
 O_FILES := o/srcs/main.o \
 	o/srcs/parse_raw.o \
 	o/srcs/solve_find.o \
-	o/srcs/solve_sort.o \
 	o/srcs/ft_subis.o \
 	o/srcs/parser.o \
-	o/srcs/print.o \
-	o/srcs/path_find.o
+	o/srcs/path_find.o \
+	o/srcs/print.o
 
 MSG_0 := printf '\033[0;32m%-19.19s\033[0;0m\r'
 MSG_1 := printf '\033[0;31m%-19.19s\033[0;0m\n'
@@ -75,10 +74,6 @@ o/srcs/solve_find.o: srcs/solve_find.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/solve_sort.o: srcs/solve_sort.c include/lem_in.h include/parser.h
-	@mkdir -p o/srcs 2> /dev/null || true
-	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
-
 o/srcs/ft_subis.o: srcs/ft_subis.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
@@ -87,11 +82,11 @@ o/srcs/parser.o: srcs/parser.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/print.o: srcs/print.c include/lem_in.h include/parser.h
+o/srcs/path_find.o: srcs/path_find.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/path_find.o: srcs/path_find.c include/lem_in.h include/parser.h
+o/srcs/print.o: srcs/print.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 

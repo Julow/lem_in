@@ -6,14 +6,14 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 18:03:27 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/03 15:35:36 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/03 16:01:47 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include <stdlib.h>
 
-t_bool	path_contains(t_path *big, t_path *small)
+static t_bool	path_contains(t_path *big, t_path *small)
 {
 	int				i;
 	int				j;
@@ -35,7 +35,7 @@ t_bool	path_contains(t_path *big, t_path *small)
 	return (false);
 }
 
-STATIC void		add_path(int *path, int len, t_tab *all)
+static void		add_path(int *path, int len, t_tab *all)
 {
 	int				i;
 	t_path			curr;
