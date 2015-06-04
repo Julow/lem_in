@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/04 16:07:00 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 18:58:37 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ STATIC void		move_path(t_lem *lem, t_path path)
 				lem->end_room->ant++;
 			else if (path.rooms[i + 1]->ant != 0)
 			{
-				PS(" CONFLICT:");
+				PS(" CONFLICT:"); // NEVER
 				continue ;
 			}
 			else
