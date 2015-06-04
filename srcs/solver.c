@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/04 15:01:24 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 16:07:00 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ STATIC void		move_path(t_lem *lem, t_path path)
 			if (path.rooms[i + 1]->flags & ROOM_END)
 				lem->end_room->ant++;
 			else if (path.rooms[i + 1]->ant != 0)
+			{
 				PS(" CONFLICT:");
+				continue ;
+			}
 			else
 				path.rooms[i + 1]->ant = path.rooms[i]->ant;
 			P(" L%d-%s", path.rooms[i]->ant, path.rooms[i + 1]->name);
@@ -56,9 +59,27 @@ STATIC void		spawn_lem(t_lem *lem)
 }
 // -
 
+static t_bool	short_lem(t_lem *lem)
+{
+	int				i;
+
+	i = -1;
+	while (++i < lem->solve_count)
+		if (lem->paths[lem->solves[i]].length <= 2)
+		{
+			while (lem->end_room->ant < lem->start_room->ant)
+				P(" L%d-%s", ++lem->end_room->ant, lem->end_room->name);
+			NL;
+			return (true);
+		}
+	return (false);
+}
+
 void			solve_lem(t_lem *lem)
 {
 	lem->start_room->ant = lem->ant_count;
+	if (short_lem(lem))
+		return ;
 	while (lem->end_room->ant < lem->ant_count)
 	{
 		move_lem(lem);
