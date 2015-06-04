@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 14:47:17 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/05 01:03:21 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,39 @@ static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 }
 
 // - TMP
-static int		solve_complexity(t_lem *lem, int *solve, int len)
+
+// FLOOR((ant_count - (((SUM / AVERAGE) * MAX) - SUM)) / (SUM / AVERAGE)) + MAX + MIN
+
+STATIC int		solve_ticks(t_lem *lem, int *solve, int len)
 {
 	int				sum;
+	int				average;
+	int				min;
+	int				max;
 	int				i;
 
-	sum = 0;
-	i = -1;
+	sum = lem->paths[solve[0]].length - 1;
+	max = sum;
+	min = sum;
+	i = 0;
 	while (++i < len)
-		sum += lem->paths[solve[i]].length;
-	return ((sum + 1) / len - len);
+	{
+		if (lem->paths[solve[i]].length - 1 > max)
+			max = lem->paths[solve[i]].length - 1;
+		else if (lem->paths[solve[i]].length - 1 < min)
+			min = lem->paths[solve[i]].length - 1;
+		sum += lem->paths[solve[i]].length - 1;
+	}
+	average = sum / len;
+	average = sum / average;
+	return (((lem->ant_count - (average * max - sum) + 1) / average) + max + min);
 }
 // -
 
 static void		solve_save(t_lem *lem, int *solve, int len)
 {
+	int				ticks;
+
 	{
 		int			i;
 		int			j;
@@ -64,13 +82,16 @@ static void		solve_save(t_lem *lem, int *solve, int len)
 			NL;
 		}
 	}
-	if (lem->solve_count < 0 || solve_complexity(lem, solve, len)
-		< solve_complexity(lem, lem->solves, lem->solve_count))
+	ticks = solve_ticks(lem, solve, len);
+	P(" TICKS: %d", ticks);
+	if (lem->solve_count < 0 || ticks < lem->solve_ticks)
 	{
 		ft_memcpy(lem->solves, solve, S(int, len));
 		lem->solve_count = len;
-		PS("SAVED"), NL;
+		lem->solve_ticks = ticks;
+		PS(" SAVED");
 	}
+	NL;
 }
 
 static void		track_solve(t_lem *lem, int path, int *solve, int len)

@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 14:52:50 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/05 00:34:32 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct	s_lem
 	t_path			*paths;
 	int				path_count;
 	int				*solves;
+	int				solve_ticks;
 	int				solve_count;
 	int				ant_count;
 }				t_lem;
