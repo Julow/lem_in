@@ -45,6 +45,7 @@ C_HEADS := -Iinclude -Ilibft
 O_FILES := o/srcs/main.o \
 	o/srcs/parse_raw.o \
 	o/srcs/solve_find.o \
+	o/srcs/solver.o \
 	o/srcs/ft_subis.o \
 	o/srcs/parser.o \
 	o/srcs/path_find.o \
@@ -71,6 +72,10 @@ o/srcs/parse_raw.o: srcs/parse_raw.c include/lem_in.h include/parser.h
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
 o/srcs/solve_find.o: srcs/solve_find.c include/lem_in.h include/parser.h
+	@mkdir -p o/srcs 2> /dev/null || true
+	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
+
+o/srcs/solver.o: srcs/solver.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 

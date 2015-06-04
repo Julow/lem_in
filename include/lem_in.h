@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 16:07:03 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 13:23:50 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct	s_lem
 void			find_paths(t_lem *lem);
 
 t_bool			find_solves(t_lem *lem);
+
+void			solve_lem(t_lem *lem);
 
 void			print_lem(t_lem *lem);
 

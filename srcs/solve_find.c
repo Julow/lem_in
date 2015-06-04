@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/03 18:38:11 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 13:20:25 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,21 @@ static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 	return (false);
 }
 
+// - TMP
 static int		solve_complexity(t_lem *lem, int *solve, int len)
 {
-	int				min;
-	int				max;
+	int				sum;
 	int				i;
 
-	min = lem->paths[solve[0]].length;
-	max = lem->paths[solve[0]].length;
-	i = 0;
+	sum = 0;
+	i = -1;
 	while (++i < len)
-		if (lem->paths[solve[i]].length < min)
-			min = lem->paths[solve[i]].length;
-		else if (lem->paths[solve[i]].length > max)
-			max = lem->paths[solve[i]].length;
-	max++;
-	min++;
-	min += (max - min + lem->ant_count + 1) / 2;
-	// if (len == 1)
-		// min = (lem->paths[solve[0]].length + lem->ant_count - 2);
-	// min = (max - min + lem->ant_count + 1) / len + min;
-	{
-		int			i;
-		int			j;
-
-		P("%{gray}Complexity: (%d)", len);
-		i = -1;
-		while (++i < len)
-		{
-			if (i > 0)
-				PS(", ");
-			j = -1;
-			while (++j < lem->paths[solve[i]].length)
-				P(" %s", lem->rooms[lem->paths[solve[i]].rooms[j]].name);
-		}
-		P(" = %d", min), NL;
-	}
-	return (min);
+		sum += lem->paths[solve[i]].length;
+	return ((sum + 1) / len - len);
 }
+// -
 
-STATIC void		solve_save(t_lem *lem, int *solve, int len)
+static void		solve_save(t_lem *lem, int *solve, int len)
 {
 	{
 		int			i;
@@ -101,10 +76,10 @@ STATIC void		solve_save(t_lem *lem, int *solve, int len)
 static void		track_solve(t_lem *lem, int path, int *solve, int len)
 {
 	solve[len++] = path;
-	solve_save(lem, solve, len);
 	while (++path < lem->path_count)
 		if (!path_collide(lem, path, solve, len))
 			track_solve(lem, path, solve, len);
+	solve_save(lem, solve, len);
 }
 
 t_bool			find_solves(t_lem *lem)
