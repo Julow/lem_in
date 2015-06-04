@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 13:20:25 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 14:47:17 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		solve_save(t_lem *lem, int *solve, int len)
 		{
 			j = -1;
 			while (++j < lem->paths[solve[i]].length)
-				P(" %s", lem->rooms[lem->paths[solve[i]].rooms[j]].name);
+				P(" %s", lem->paths[solve[i]].rooms[j]->name);
 			NL;
 		}
 	}

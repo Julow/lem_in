@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:35:15 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 12:58:30 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 14:58:11 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int				main(void)
 		{
 			j = -1;
 			while (++j < lem.paths[i].length)
-				P(" %s", lem.rooms[lem.paths[i].rooms[j]].name);
+				P(" %s", lem.paths[i].rooms[j]->name);
 			NL;
 		}
 	}
@@ -50,11 +50,12 @@ int				main(void)
 		{
 			k = -1;
 			while (++k < lem.paths[lem.solves[j]].length)
-				P(" %s", lem.rooms[lem.paths[lem.solves[j]].rooms[k]].name);
+				P(" %s", lem.paths[lem.solves[j]].rooms[k]->name);
 			NL;
 		}
 	}
 // -
+	NL;
 	solve_lem(&lem);
 	return (0);
 }

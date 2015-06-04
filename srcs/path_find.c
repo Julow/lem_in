@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 18:03:27 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/03 16:01:47 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 14:53:32 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_bool	path_contains(t_path *big, t_path *small)
 	return (false);
 }
 
-static void		add_path(int *path, int len, t_tab *all)
+static void		add_path(t_room **path, int len, t_tab *all)
 {
 	int				i;
 	t_path			curr;
@@ -54,16 +54,16 @@ static void		add_path(int *path, int len, t_tab *all)
 			free(TG(t_path, *all, i)->rooms);
 			ft_tabrem(all, i--, 1);
 		}
-	curr.rooms = ft_memdup(path, S(int, len));
+	curr.rooms = ft_memdup(path, S(t_room*, len));
 	ft_tabadd(all, &curr);
 }
 
-static void		track_path(t_lem *m, int room, int *path, int len, t_tab *all)
+static void		track_path(t_lem *m, int room, t_room **path, int len, t_tab *all)
 {
 	int				j;
 
-	path[len++] = room;
-	if (room == m->end_room)
+	path[len++] = m->rooms + room;
+	if (room == m->end_room_i)
 	{
 		add_path(path, len, all);
 		return ;
@@ -82,10 +82,10 @@ static void		track_path(t_lem *m, int room, int *path, int len, t_tab *all)
 void			find_paths(t_lem *lem)
 {
 	t_tab			paths;
-	int				tmp_path[lem->room_count];
+	t_room			*tmp_path[lem->room_count];
 
 	ft_tabini(&paths, sizeof(t_path));
-	track_path(lem, lem->start_room, tmp_path, 0, &paths);
+	track_path(lem, lem->start_room_i, tmp_path, 0, &paths);
 	lem->paths = (t_path*)paths.data;
 	lem->path_count = paths.length;
 }

@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 13:23:50 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/04 14:52:50 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct	s_room
 
 typedef struct	s_path
 {
-	int				*rooms;
+	t_room			**rooms;
 	int				length;
 }				t_path;
 
@@ -38,8 +38,10 @@ typedef struct	s_lem
 {
 	t_room			*rooms;
 	int				room_count;
-	int				start_room;
-	int				end_room;
+	int				start_room_i;
+	int				end_room_i;
+	t_room			*start_room;
+	t_room			*end_room;
 	char			**links;
 	t_path			*paths;
 	int				path_count;
