@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/05 01:03:21 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/05 11:35:45 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,32 +35,32 @@ static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 }
 
 // - TMP
-
-// FLOOR((ant_count - (((SUM / AVERAGE) * MAX) - SUM)) / (SUM / AVERAGE)) + MAX + MIN
-
 STATIC int		solve_ticks(t_lem *lem, int *solve, int len)
 {
-	int				sum;
-	int				average;
-	int				min;
-	int				max;
+	int				num_routes = len;
+	int				min_len;
+	int				max_diff;
+	int				sum_diff;
+	int				rect_diff;
 	int				i;
 
-	sum = lem->paths[solve[0]].length - 1;
-	max = sum;
-	min = sum;
+	min_len = lem->paths[solve[0]].length;
 	i = 0;
-	while (++i < len)
+	while (++i < num_routes)
+		if (lem->paths[solve[i]].length < min_len)
+			min_len = lem->paths[solve[i]].length;
+	sum_diff = lem->paths[solve[0]].length - min_len;
+	max_diff = sum_diff;
+	i = 0;
+	while (++i < num_routes)
 	{
-		if (lem->paths[solve[i]].length - 1 > max)
-			max = lem->paths[solve[i]].length - 1;
-		else if (lem->paths[solve[i]].length - 1 < min)
-			min = lem->paths[solve[i]].length - 1;
-		sum += lem->paths[solve[i]].length - 1;
+		if ((lem->paths[solve[i]].length - min_len) > max_diff)
+			max_diff = lem->paths[solve[i]].length - min_len;
+		sum_diff += lem->paths[solve[i]].length - min_len;
 	}
-	average = sum / len;
-	average = sum / average;
-	return (((lem->ant_count - (average * max - sum) + 1) / average) + max + min);
+	min_len -= 2;
+	rect_diff = max_diff * num_routes;
+	return ((lem->ant_count - (rect_diff - sum_diff) + 1) / num_routes + max_diff + min_len);
 }
 // -
 
