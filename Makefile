@@ -30,7 +30,7 @@ C_CC := clang
 LD_CC := clang
 
 # Clang flags
-C_FLAGS := -Wall -Wextra -Werror -O2
+C_FLAGS := -Wall -Wextra -Werror -g
 
 # Linking flags
 LD_FLAGS := -Llibft -lft
@@ -75,23 +75,23 @@ o/srcs/solve_find.o: srcs/solve_find.c include/lem_in.h include/parser.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/solver.o: srcs/solver.c include/lem_in.h include/parser.h
+o/srcs/solver.o: srcs/solver.c include/lem_in.h include/parser.h include/solver.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/ft_subis.o: srcs/ft_subis.c include/lem_in.h include/parser.h
+o/srcs/ft_subis.o: srcs/ft_subis.c include/lem_in.h include/parser.h include/solver.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/parser.o: srcs/parser.c include/lem_in.h include/parser.h
+o/srcs/parser.o: srcs/parser.c include/lem_in.h include/parser.h include/solver.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/path_find.o: srcs/path_find.c include/lem_in.h include/parser.h
+o/srcs/path_find.o: srcs/path_find.c include/lem_in.h include/parser.h include/solver.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/print.o: srcs/print.c include/lem_in.h include/parser.h
+o/srcs/print.o: srcs/print.c include/lem_in.h include/parser.h include/solver.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 

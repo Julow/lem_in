@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/05 11:35:45 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/05 13:27:45 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,30 @@ static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 	return (false);
 }
 
-// - TMP
 STATIC int		solve_ticks(t_lem *lem, int *solve, int len)
 {
-	int				num_routes = len;
 	int				min_len;
 	int				max_diff;
 	int				sum_diff;
-	int				rect_diff;
 	int				i;
 
 	min_len = lem->paths[solve[0]].length;
 	i = 0;
-	while (++i < num_routes)
+	while (++i < len)
 		if (lem->paths[solve[i]].length < min_len)
 			min_len = lem->paths[solve[i]].length;
 	sum_diff = lem->paths[solve[0]].length - min_len;
 	max_diff = sum_diff;
 	i = 0;
-	while (++i < num_routes)
+	while (++i < len)
 	{
 		if ((lem->paths[solve[i]].length - min_len) > max_diff)
 			max_diff = lem->paths[solve[i]].length - min_len;
 		sum_diff += lem->paths[solve[i]].length - min_len;
 	}
-	min_len -= 2;
-	rect_diff = max_diff * num_routes;
-	return ((lem->ant_count - (rect_diff - sum_diff) + 1) / num_routes + max_diff + min_len);
+	return ((lem->ant_count - (max_diff * len - sum_diff) + 1)
+		/ len + max_diff + min_len - 2);
 }
-// -
 
 static void		solve_save(t_lem *lem, int *solve, int len)
 {
@@ -83,7 +78,7 @@ static void		solve_save(t_lem *lem, int *solve, int len)
 		}
 	}
 	ticks = solve_ticks(lem, solve, len);
-	P(" TICKS: %d", ticks);
+	P("TICKS: %d", ticks);
 	if (lem->solve_count < 0 || ticks < lem->solve_ticks)
 	{
 		ft_memcpy(lem->solves, solve, S(int, len));

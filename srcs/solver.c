@@ -6,84 +6,84 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/04 18:58:37 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/05 18:38:27 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "solver.h"
 
-STATIC void		move_path(t_lem *lem, t_path path)
+static int		path_cmp(t_path *p1, t_path *p2)
 {
-	int				i;
-
-	i = path.length - 1;
-	while (--i > 0)
-		if (path.rooms[i]->ant != 0)
-		{
-			if (path.rooms[i + 1]->flags & ROOM_END)
-				lem->end_room->ant++;
-			else if (path.rooms[i + 1]->ant != 0)
-			{
-				PS(" CONFLICT:"); // NEVER
-				continue ;
-			}
-			else
-				path.rooms[i + 1]->ant = path.rooms[i]->ant;
-			P(" L%d-%s", path.rooms[i]->ant, path.rooms[i + 1]->name);
-			path.rooms[i]->ant = 0;
-		}
+	return (p1->length - p2->length);
 }
 
-STATIC void		move_lem(t_lem *lem)
+static void		move_ant(t_solver *solver, t_room *r1, t_room *r2)
 {
-	int				i;
-
-	i = -1;
-	while (++i < lem->solve_count)
-		move_path(lem, lem->paths[lem->solves[i]]);
+	if (r2->flags & ROOM_END)
+		solver->ants--;
+	else if (r2->ant != 0)
+		PS(" CONFLICT"); // NEVER
+	else
+	{
+		P(" L%d-%s", r2->name);
+		r2->ant = r1->ant;
+	}
+	r1->ant = 0;
 }
 
-// - TMP
-STATIC void		spawn_lem(t_lem *lem)
+static void		move_lem(t_solver *solver)
 {
 	int				i;
+	int				j;
 
 	i = -1;
-	while (++i < lem->solve_count && lem->start_room->ant > 0)
-		if (lem->paths[lem->solves[i]].rooms[1]->ant == 0)
-		{
-			lem->start_room->ant--;
-			lem->paths[lem->solves[i]].rooms[1]->ant = lem->ant_count - lem->start_room->ant;
-			P(" L%d-%s", lem->paths[lem->solves[i]].rooms[1]->ant, lem->paths[lem->solves[i]].rooms[1]->name);
-		}
+	while (++i < solver->path_count)
+	{
+		j = solver->paths[i]->length - 1;
+		while (--j >= 0)
+			if (solver->paths[i]->rooms[j]->ant != 0)
+				move_ant(solver->paths[i]->rooms[j],
+					solver->paths[i]->rooms[j - 1]);
+	}
 }
-// -
 
-static t_bool	short_lem(t_lem *lem)
+static void		spawn_lem(t_solver *solver, int spawn)
 {
 	int				i;
 
-	i = -1;
-	while (++i < lem->solve_count)
-		if (lem->paths[lem->solves[i]].length <= 2)
+	while (spawn > 0)
+	{
+		i = -1;
+		while (++i < solver->path_count)
 		{
-			while (lem->end_room->ant < lem->start_room->ant)
-				P(" L%d-%s", ++lem->end_room->ant, lem->end_room->name);
-			NL;
-			return (true);
+			// TODO
 		}
-	return (false);
+		spawn--;
+		solver->ants--;
+		(void)solver;
+	}
 }
 
 void			solve_lem(t_lem *lem)
 {
-	lem->start_room->ant = lem->ant_count;
-	if (short_lem(lem))
-		return ;
-	while (lem->end_room->ant < lem->ant_count)
+	t_solver		solver;
+	t_path			*paths[lem->solve_count];
+	int				i;
+
+	i = -1;
+	while (++i < lem->solve_count)
+		paths[i] = lem->paths + lem->solves[i];
+	ft_quicksort((void**)paths, lem->solve_count, &path_cmp);
+	solver = (t_solver){lem, paths, lem->solve_count, 0, lem->ant_count};
+	while (solver.ants > 0)
 	{
-		move_lem(lem);
-		spawn_lem(lem);
-		NL;
+		i = solver.path_count * solver.paths[solver.path_count - 1]->length;
+		if (solver.path_count > 1 && i > solver.ants)
+		{
+			solver.path_count--;
+			continue ;
+		}
+		spawn_lem(&solver, MIN(i, solver.ants));
 	}
 }
