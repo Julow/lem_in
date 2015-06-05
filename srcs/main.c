@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:35:15 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 15:55:49 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/06 00:45:17 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int				main(void)
 // -
 	if (!find_solves(&lem))
 		return (ft_fdprintf(2, ERROR), 1);
-	P("%{cyan}Solution: (%d)%{reset}", lem.solve_count), NL;
+	P("%{cyan}Solution: (%d - %d)%{reset}",
+		lem.solve_count, lem.solve_ticks), NL;
 // print solves
 	{
 		int				j;
