@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/06 01:30:17 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/06 02:44:32 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,20 @@ void			solve_lem(t_lem *lem)
 		paths[i] = lem->paths + lem->solves[i];
 	ft_quicksort((void**)paths, lem->solve_count, &path_cmp);
 	solver = (t_solver){lem, paths, lem->solve_count, 0, lem->ant_count};
-	while (solver.next_ant < lem->ant_count)
-	{
-		i = solver.path_count * solver.paths[solver.path_count - 1]->length;
-		if (solver.path_count > 1 && i > (lem->ant_count - solver.next_ant))
-		{
-			solver.path_count--;
-			continue ;
-		}
-		while ((i += solver.path_count) < (lem->ant_count - solver.next_ant))
-			;
-		i -= solver.path_count;
-		spawn_lem(&solver, MIN(i, lem->ant_count - solver.next_ant));
-	}
-	// spawn_lem(&solver, lem->ant_count);
+	// while (solver.next_ant < lem->ant_count)
+	// {
+	// 	i = solver.path_count * solver.paths[solver.path_count - 1]->length;
+	// 	if (solver.path_count > 1 && i > (lem->ant_count - solver.next_ant))
+	// 	{
+	// 		solver.path_count--;
+	// 		continue ;
+	// 	}
+	// 	while ((i += solver.path_count) < (lem->ant_count - solver.next_ant))
+	// 		;
+	// 	i -= solver.path_count;
+	// 	spawn_lem(&solver, MIN(i, lem->ant_count - solver.next_ant));
+	// }
+	spawn_lem(&solver, lem->ant_count);
 	while (solver.ants > 0)
 		move_lem(&solver), NL;
 }

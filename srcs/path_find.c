@@ -6,76 +6,70 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 18:03:27 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/04 14:53:32 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/06 02:42:54 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include <stdlib.h>
 
-static t_bool	path_contains(t_path *big, t_path *small)
+STATIC void		set_friend(t_lem *lem, int room, char *friends)
 {
-	int				i;
 	int				j;
-	int				max;
 
-	if (big->length < small->length)
-		return (path_contains(small, big));
-	max = big->length - small->length;
-	i = -1;
-	while (++i < max)
-	{
-		j = 0;
-		while (++j < (small->length - 1))
-			if (big->rooms[i + j] != small->rooms[j])
-				break ;
-		if (j == small->length - 1)
-			return (true);
-	}
-	return (false);
-}
-
-static void		add_path(t_room **path, int len, t_tab *all)
-{
-	int				i;
-	t_path			curr;
-
-	curr = (t_path){path, len};
-	i = -1;
-	while (++i < all->length)
-		if (!path_contains(&curr, TG(t_path, *all, i)))
-			continue ;
-		else if (len > TG(t_path, *all, i)->length)
-			return ;
-		else if (len == TG(t_path, *all, i)->length)
-			ft_fdprintf(2, "OMGLOL\n");
-		else
+	j = -1;
+	while (++j < room)
+		if (lem->links[room][j] && !(lem->rooms[j].flags & ROOM_FRIEND))
 		{
-			free(TG(t_path, *all, i)->rooms);
-			ft_tabrem(all, i--, 1);
+			friends[j] = 1;
+			lem->rooms[j].flags |= ROOM_FRIEND;
 		}
-	curr.rooms = ft_memdup(path, S(t_room*, len));
-	ft_tabadd(all, &curr);
+		else
+			friends[j] = 0;
+	while (++j < lem->room_count)
+		if (lem->links[j][room] && !(lem->rooms[j].flags & ROOM_FRIEND))
+		{
+			friends[j] = 1;
+			lem->rooms[j].flags |= ROOM_FRIEND;
+		}
+		else
+			friends[j] = 0;
 }
 
-static void		track_path(t_lem *m, int room, t_room **path, int len, t_tab *all)
+STATIC void		unset_friend(t_lem *lem, char *friends)
+{
+	int				i;
+
+	i = -1;
+	while (++i < lem->room_count)
+		if (friends[i])
+			lem->rooms[i].flags &= ~(ROOM_FRIEND);
+}
+
+static void		track_path(t_lem *m, int room, t_room **path, int len, t_tab *a)
 {
 	int				j;
+	char			friends[m->room_count];
 
 	path[len++] = m->rooms + room;
-	if (room == m->end_room_i)
+	if (R_LINK(m->links, room, m->end_room_i))
 	{
-		add_path(path, len, all);
+		path[len++] = m->rooms + m->end_room_i;
+		ft_tabadd(a, &(t_path){ft_memdup(path, S(t_room*, len)), len});
 		return ;
 	}
 	m->rooms[room].flags |= ROOM_PATH;
+	set_friend(m, room, friends);
 	j = -1;
 	while (++j < room)
-		if (m->links[room][j] && !(m->rooms[j].flags & ROOM_PATH))
-			track_path(m, j, path, len, all);
+		if (friends[j] ||
+			(m->links[room][j] && !(m->rooms[j].flags & (ROOM_PATH | ROOM_FRIEND))))
+			track_path(m, j, path, len, a);
 	while (++j < m->room_count)
-		if (m->links[j][room] && !(m->rooms[j].flags & ROOM_PATH))
-			track_path(m, j, path, len, all);
+		if (friends[j] ||
+			(m->links[j][room] && !(m->rooms[j].flags & (ROOM_PATH | ROOM_FRIEND))))
+			track_path(m, j, path, len, a);
+	unset_friend(m, friends);
 	m->rooms[room].flags &= ~(ROOM_PATH);
 }
 
