@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:26:24 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/04 18:51:22 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/07 01:32:07 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,15 @@ static t_bool	build_rooms(t_lem *lem, t_lem_raw *raw)
 	lem->end_room = NULL;
 	i = -1;
 	while (++i < lem->room_count)
-		if (lem->rooms[i].flags & ROOM_START)
-		{
-			if (lem->start_room != NULL)
-				return (false);
-			lem->start_room_i = i;
+	{
+		if (lem->rooms[i].flags & ROOM_START
+			&& lem->start_room == NULL)
 			lem->start_room = lem->rooms + i;
-		}
-		else if (lem->rooms[i].flags & ROOM_END)
-		{
-			if (lem->end_room != NULL)
-				return (false);
-			lem->end_room_i = i;
+		if (lem->rooms[i].flags & ROOM_END
+			&& lem->end_room == NULL)
 			lem->end_room = lem->rooms + i;
-		}
+		lem->rooms[i].id = i;
+	}
 	if (lem->start_room == NULL || lem->end_room == NULL)
 		return (false);
 	return (true);

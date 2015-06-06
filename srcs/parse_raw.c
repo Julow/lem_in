@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:35:39 by juloo             #+#    #+#             */
-/*   Updated: 2015/05/31 02:06:57 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/07 01:30:14 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_bool	parse_raw_room(t_lem_raw *raw, t_sub line, int flags)
 	t_sub			name;
 	t_room			room;
 
-	room = (t_room){NULL, 0, 0, 0, flags & (ROOM_START | ROOM_END)};
+	room = (t_room){NULL, 0, 0, 0, 0, flags & (ROOM_START | ROOM_END)};
 	line.length = 0;
 	ft_subnext(&line, IS_SPACE);
 	if (line.length <= 0 || ft_strchr(line.str, '-') != NULL)

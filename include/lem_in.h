@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/06 02:42:56 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/07 01:36:38 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef struct	s_room
 {
 	char			*name;
+	int				id;
 	int				x;
 	int				y;
 	int				ant;
@@ -38,8 +39,6 @@ typedef struct	s_lem
 {
 	t_room			*rooms;
 	int				room_count;
-	int				start_room_i;
-	int				end_room_i;
 	t_room			*start_room;
 	t_room			*end_room;
 	char			**links;
