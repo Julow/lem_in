@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/07 17:29:07 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 17:29:19 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/07 22:31:53 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 int				room_index(t_parser *parser, t_sub name)
 {
-	int				i;
+	t_room			*it;
+	t_room			*end;
 
-	i = -1;
-	while (++i < parser->rooms.length)
-		if (TG(t_room, parser->rooms, i)->name_len == name.length
-			&& ft_memcmp(TG(t_room, parser->rooms, i)->name, name.str,
-				name.length) == 0)
-			return (i);
+	it = TBEGIN(t_room, parser->rooms) - 1;
+	end = TEND(t_room, parser->rooms);
+	while (++it < end)
+		if (it->name_len == name.length
+			&& ft_memcmp(it->name, name.str, name.length) == 0)
+			return (it->id);
 	return (-1);
 }

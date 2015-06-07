@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:24:59 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 17:29:24 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/07 22:12:23 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ t_bool			parser(int fd, t_lem *lem);
 /*
 ** Private
 */
-int				room_index(t_parser *parser, t_sub name)
+int				room_index(t_parser *parser, t_sub name);
 
 #endif

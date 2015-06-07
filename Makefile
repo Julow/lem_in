@@ -30,7 +30,7 @@ C_CC := clang
 LD_CC := clang
 
 # Clang flags
-C_FLAGS := -Wall -Wextra -Werror -g
+C_FLAGS := -Wall -Wextra -Werror -O2
 
 # Linking flags
 LD_FLAGS := -Llibft -lft

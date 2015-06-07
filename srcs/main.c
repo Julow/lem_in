@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:35:15 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/06 00:45:17 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/07 22:13:01 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int				main(void)
 
 	if (!parser(0, &lem))
 		return (ft_fdprintf(2, ERROR), 1);
-	print_lem(&lem);
 	find_paths(&lem);
 	P("%{cyan}Paths: (%d)%{reset}", lem.path_count), NL;
 // print paths
@@ -39,6 +38,7 @@ int				main(void)
 // -
 	if (!find_solves(&lem))
 		return (ft_fdprintf(2, ERROR), 1);
+	print_lem(&lem);
 	P("%{cyan}Solution: (%d - %d)%{reset}",
 		lem.solve_count, lem.solve_ticks), NL;
 // print solves
