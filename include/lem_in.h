@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 01:36:38 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/07 17:24:19 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef struct	s_room
 {
 	char			*name;
+	int				name_len;
 	int				id;
 	int				x;
 	int				y;
@@ -66,5 +67,8 @@ void			solve_lem(t_lem *lem);
 void			print_lem(t_lem *lem);
 
 t_bool			ft_subis(t_sub sub, t_is mask);
+char			*ft_subdup(t_sub sub);
+int				ft_subtoi(t_sub sub, int *nb);
+t_bool			ft_subisint(t_sub sub);
 
 #endif

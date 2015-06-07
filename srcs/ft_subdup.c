@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_subdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/05/30 23:24:59 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 17:29:24 by juloo            ###   ########.fr       */
+/*   Created: 2015/06/07 16:43:59 by juloo             #+#    #+#             */
+/*   Updated: 2015/06/07 16:57:31 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "lem_in.h"
 
-# include "lem_in.h"
-
-typedef struct	s_parser
+/*
+** ft_subdup
+** ----
+** Copy the content of sub into a new allocated string
+** ----
+** Return the new string
+*/
+char			*ft_subdup(t_sub sub)
 {
-	t_tab			rooms;
-	char			**links;
-	int				start_room;
-	int				end_room;
-	int				flags;
-	int				ant_count;
-	t_bool			(*f)(struct s_parser *, t_sub);
-}				t_parser;
+	char			*dup;
 
-/*
-** Init and fill t_lem struct
-*/
-t_bool			parser(int fd, t_lem *lem);
-
-/*
-** Private
-*/
-int				room_index(t_parser *parser, t_sub name)
-
-#endif
+	dup = MAL(char, sub.length + 1);
+	ft_memcpy(dup, sub.str, sub.length);
+	dup[sub.length] = '\0';
+	return (dup);
+}

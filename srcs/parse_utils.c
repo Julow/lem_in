@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/05/30 23:24:59 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 17:29:24 by juloo            ###   ########.fr       */
+/*   Created: 2015/06/07 17:29:07 by juloo             #+#    #+#             */
+/*   Updated: 2015/06/07 17:29:19 by juloo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "parser.h"
 
-# include "lem_in.h"
-
-typedef struct	s_parser
-{
-	t_tab			rooms;
-	char			**links;
-	int				start_room;
-	int				end_room;
-	int				flags;
-	int				ant_count;
-	t_bool			(*f)(struct s_parser *, t_sub);
-}				t_parser;
-
-/*
-** Init and fill t_lem struct
-*/
-t_bool			parser(int fd, t_lem *lem);
-
-/*
-** Private
-*/
 int				room_index(t_parser *parser, t_sub name)
+{
+	int				i;
 
-#endif
+	i = -1;
+	while (++i < parser->rooms.length)
+		if (TG(t_room, parser->rooms, i)->name_len == name.length
+			&& ft_memcmp(TG(t_room, parser->rooms, i)->name, name.str,
+				name.length) == 0)
+			return (i);
+	return (-1);
+}
