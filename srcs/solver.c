@@ -6,17 +6,12 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/06 02:44:32 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/08 14:49:00 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "solver.h"
-
-static int		path_cmp(t_path *p1, t_path *p2)
-{
-	return (p1->length - p2->length);
-}
 
 STATIC void		move_ant(t_solver *solver, t_room *r1, t_room *r2)
 {
@@ -61,7 +56,7 @@ STATIC void		spawn_lem(t_solver *solver, int spawn)
 				solver->paths[i]->rooms[1]);
 			spawn--;
 		}
-		NL;
+		PC('\n');
 	}
 }
 
@@ -74,22 +69,9 @@ void			solve_lem(t_lem *lem)
 	i = -1;
 	while (++i < lem->solve_count)
 		paths[i] = lem->paths + lem->solves[i];
-	ft_quicksort((void**)paths, lem->solve_count, &path_cmp);
 	solver = (t_solver){lem, paths, lem->solve_count, 0, lem->ant_count};
-	// while (solver.next_ant < lem->ant_count)
-	// {
-	// 	i = solver.path_count * solver.paths[solver.path_count - 1]->length;
-	// 	if (solver.path_count > 1 && i > (lem->ant_count - solver.next_ant))
-	// 	{
-	// 		solver.path_count--;
-	// 		continue ;
-	// 	}
-	// 	while ((i += solver.path_count) < (lem->ant_count - solver.next_ant))
-	// 		;
-	// 	i -= solver.path_count;
-	// 	spawn_lem(&solver, MIN(i, lem->ant_count - solver.next_ant));
-	// }
 	spawn_lem(&solver, lem->ant_count);
 	while (solver.ants > 0)
-		move_lem(&solver), NL;
+		move_lem(&solver), PC('\n');
+	FL;
 }

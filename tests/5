@@ -1,0 +1,42 @@
+30000
+##start
+start 0 1
+a 0 2
+b 0 3
+c 0 4
+d 0 5
+e 0 6
+f 0 7
+g 0 8
+h 0 9
+i 0 10
+l 0 11
+m 0 12
+n 0 13
+o 0 14
+p 0 15
+q 0 16
+r 0 17
+s 0 18
+##end
+end 0 19
+start-a
+start-c
+start-g
+b-end
+f-end
+s-end
+a-b
+c-d
+d-e
+e-f
+g-h
+h-i
+i-l
+l-m
+m-n
+n-o
+o-p
+p-q
+q-r
+r-s

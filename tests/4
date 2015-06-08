@@ -1,0 +1,47 @@
+20
+##start
+start 0 1
+##end
+end 1 0
+1 1 1
+2 2 2
+3 3 3
+up1 21 21
+up2 22 22
+up3 23 23
+up4 24 24
+up5 25 25
+up6 26 26
+up7 27 27
+up8 28 28
+down1 41 41
+down2 42 42
+down3 43 43
+down4 44 44
+down5 45 45
+down6 46 46
+down7 47 47
+down8 48 48
+# lal
+start-1
+1-2
+2-3
+3-end
+start-up1
+up1-up2
+up2-up3
+up3-up4
+up4-up5
+up5-up6
+up6-up7
+up7-up8
+up8-3
+1-down1
+down1-down2
+down2-down3
+down3-down4
+down4-down5
+down5-down6
+down6-down7
+down7-down8
+down8-end

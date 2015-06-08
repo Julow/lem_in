@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/06 15:55:37 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/08 14:26:35 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ STATIC int		solve_ticks(t_lem *lem, int *solve, int len)
 			max_diff = lem->paths[solve[i]].length - min_len;
 		sum_diff += lem->paths[solve[i]].length - min_len;
 	}
-	return ((lem->ant_count - (max_diff * len - sum_diff) + 1)
+	return ((lem->ant_count - (max_diff * len - sum_diff) + len - 1)
 		/ len + max_diff + min_len - 2);
 }
 
