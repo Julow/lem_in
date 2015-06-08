@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/08 17:34:58 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/08 18:16:30 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 STATIC void		move_ant(t_solver *solver, t_room *r1, t_room *r2)
 {
-	if (r2->ant != 0)
-		PS(" %{red}CONFLICT%{reset}"); // NEVER
-	P(" L%d-%s", r1->ant, r2->name);
+	if (solver->first_tick)
+		solver->first_tick = false;
+	else
+		PC(' ');
+	P("L%d-%s", r1->ant, r2->name);
 	if (r2->flags & ROOM_END)
 		solver->ants--;
 	else
@@ -30,6 +32,7 @@ static void		move_lem(t_solver *solver)
 	int				i;
 	int				j;
 
+	solver->first_tick = true;
 	i = -1;
 	while (++i < solver->lem->solve_count)
 	{
@@ -95,7 +98,7 @@ void			solve_lem(t_lem *lem)
 	while (++i < lem->solve_count)
 		paths[i] = lem->paths + lem->solves[i];
 	ft_quicksort((void**)paths, lem->solve_count, &path_cmp);
-	solver = (t_solver){lem, paths, lem->solve_count, 0, lem->ant_count};
+	solver = (t_solver){lem, paths, true, lem->solve_count, 0, lem->ant_count};
 	while (solver.next_ant < lem->ant_count)
 	{
 		spawn_lem(&solver, ant_to_spawn(&solver));

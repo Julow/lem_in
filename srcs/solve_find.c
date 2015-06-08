@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/08 14:26:35 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/08 18:13:24 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,29 +64,12 @@ static void		solve_save(t_lem *lem, int *solve, int len)
 	int				ticks;
 
 	ticks = solve_ticks(lem, solve, len);
-	{
-		int			i;
-		int			j;
-
-		P("%{gray}Test: (paths: %d, ticks: %d)", len, ticks);
-		i = -1;
-		while (++i < len)
-		{
-			if (i > 0)
-				PS(" ; ");
-			j = -1;
-			while (++j < lem->paths[solve[i]].length)
-				P(" %s", lem->paths[solve[i]].rooms[j]->name);
-		}
-	}
 	if (lem->solve_count < 0 || ticks < lem->solve_ticks)
 	{
 		ft_memcpy(lem->solves, solve, S(int, len));
 		lem->solve_count = len;
 		lem->solve_ticks = ticks;
-		PS(" [BEST]");
 	}
-	P("%{reset}", 0), NL;
 }
 
 static void		track_solve(t_lem *lem, int path, int *solve, int len)

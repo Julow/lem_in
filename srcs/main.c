@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:35:15 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 22:13:01 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/08 18:12:58 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,43 +20,9 @@ int				main(void)
 	if (!parser(0, &lem))
 		return (ft_fdprintf(2, ERROR), 1);
 	find_paths(&lem);
-	P("%{cyan}Paths: (%d)%{reset}", lem.path_count), NL;
-// print paths
-	{
-		int				i;
-		int				j;
-
-		i = -1;
-		while (++i < lem.path_count)
-		{
-			j = -1;
-			while (++j < lem.paths[i].length)
-				P(" %s", lem.paths[i].rooms[j]->name);
-			NL;
-		}
-	}
-// -
 	if (!find_solves(&lem))
 		return (ft_fdprintf(2, ERROR), 1);
 	print_lem(&lem);
-	P("%{cyan}Solution: (%d - %d)%{reset}",
-		lem.solve_count, lem.solve_ticks), NL;
-// print solves
-	{
-		int				j;
-		int				k;
-
-		j = -1;
-		while (++j < lem.solve_count)
-		{
-			k = -1;
-			while (++k < lem.paths[lem.solves[j]].length)
-				P(" %s", lem.paths[lem.solves[j]].rooms[k]->name);
-			NL;
-		}
-	}
-// -
-	NL;
 	solve_lem(&lem);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:26:24 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 22:32:23 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/08 18:19:50 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ t_bool			parser(int fd, t_lem *lem)
 		if (line.length <= 0 || !parser.f(&parser, line))
 			return (false);
 	}
+	if (parser.rooms.length <= 0)
+		return (false);
 	lem->rooms = (t_room*)parser.rooms.data;
 	lem->room_count = parser.rooms.length;
 	lem->start_room = lem->rooms + parser.start_room;

@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/05 14:32:24 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/08 17:34:33 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/08 18:14:21 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct	s_solver
 {
 	t_lem			*lem;
 	t_path			**paths;
+	t_bool			first_tick;
 	int				path_count;
 	int				next_ant;
 	int				ants;
