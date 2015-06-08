@@ -6,7 +6,7 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/05 14:32:24 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/06 00:57:34 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/08 17:34:33 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ typedef struct	s_solver
 	int				next_ant;
 	int				ants;
 }				t_solver;
+
+int				path_cmp(t_path *p1, t_path *p2);
 
 #endif
