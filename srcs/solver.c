@@ -6,14 +6,14 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/04 12:50:55 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/08 18:16:30 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/09 14:25:02 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "solver.h"
 
-STATIC void		move_ant(t_solver *solver, t_room *r1, t_room *r2)
+static void		move_ant(t_solver *solver, t_room *r1, t_room *r2)
 {
 	if (solver->first_tick)
 		solver->first_tick = false;
@@ -44,7 +44,7 @@ static void		move_lem(t_solver *solver)
 	}
 }
 
-STATIC void		spawn_lem(t_solver *solver, int spawn)
+static void		spawn_lem(t_solver *solver, int spawn)
 {
 	int				i;
 
@@ -85,7 +85,7 @@ static int		ant_to_spawn(t_solver *solver)
 		sum_diff += solver->paths[i]->length - min_len;
 	}
 	return (solver->lem->ant_count - solver->next_ant
-		- ((solver->path_count * max_diff) - sum_diff));
+	- ((solver->path_count * max_diff) - sum_diff));
 }
 
 void			solve_lem(t_lem *lem)

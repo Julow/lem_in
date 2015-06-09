@@ -106,7 +106,7 @@ o/srcs/ft_subtoi.o: srcs/ft_subtoi.c include/lem_in.h include/parser.h include/s
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 
-o/srcs/path_find.o: srcs/path_find.c include/lem_in.h include/parser.h include/solver.h
+o/srcs/path_find.o: srcs/path_find.c include/lem_in.h include/parser.h include/solver.h include/path_find.h
 	@mkdir -p o/srcs 2> /dev/null || true
 	@$(MSG_0) $< ; clang $(C_FLAGS) $(C_HEADS) -c -o $@ $< || ($(MSG_1) $< && false)
 

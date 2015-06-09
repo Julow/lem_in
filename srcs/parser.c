@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 23:26:24 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/08 18:19:50 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/09 14:36:30 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_bool			parser(int fd, t_lem *lem)
 	t_parser		parser;
 	t_sub			line;
 
-	parser = (t_parser){{}, NULL, -1, -1, 0, 0, &parse_ant_count};
+	parser = (t_parser){NOTHING, NULL, -1, -1, 0, 0, &parse_ant_count};
 	ft_tabini(&(parser.rooms), sizeof(t_room));
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -106,7 +106,8 @@ t_bool			parser(int fd, t_lem *lem)
 		if (line.length <= 0 || !parser.f(&parser, line))
 			return (false);
 	}
-	if (parser.rooms.length <= 0)
+	if (parser.rooms.length <= 0 || parser.links == NULL
+		|| parser.start_room < 0 || parser.end_room < 0)
 		return (false);
 	lem->rooms = (t_room*)parser.rooms.data;
 	lem->room_count = parser.rooms.length;

@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/30 19:19:36 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/07 22:16:40 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/09 14:36:41 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct	s_lem
 # define ROOM_END		(1 << 2)
 # define ROOM_PATH		(1 << 3)
 # define ROOM_FRIEND	(1 << 4)
+
+# define NOTHING		{}
 
 # define R_LINK(l,a,b)	((a < b) ? l[b][a] : l[a][b])
 

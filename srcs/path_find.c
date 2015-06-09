@@ -6,12 +6,12 @@
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 18:03:27 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/07 01:55:16 by juloo            ###   ########.fr       */
+/*   Updated: 2015/06/09 14:34:50 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include <stdlib.h>
+#include "path_find.h"
 
 static t_bool	path_friend(t_lem *lem, int room, t_room **path, int len)
 {
@@ -24,37 +24,38 @@ static t_bool	path_friend(t_lem *lem, int room, t_room **path, int len)
 	return (false);
 }
 
-static void		track_path(t_lem *m, int room, t_room **path, int len, t_tab *a)
+static void		track_path(t_finder *f, int room, t_room **path, int len)
 {
 	int				j;
 
-	path[len++] = m->rooms + room;
-	if (R_LINK(m->links, room, m->end_room->id))
+	path[len++] = f->lem->rooms + room;
+	if (R_LINK(f->lem->links, room, f->lem->end_room->id))
 	{
-		path[len++] = m->end_room;
-		ft_tabadd(a, &(t_path){ft_memdup(path, S(t_room*, len)), len});
+		path[len++] = f->lem->end_room;
+		ft_tabadd(&(f->paths), &PATH(ft_memdup(path, S(t_room*, len)), len));
 		return ;
 	}
-	m->rooms[room].flags |= ROOM_PATH;
+	f->lem->rooms[room].flags |= ROOM_PATH;
 	j = -1;
 	while (++j < room)
-		if (m->links[room][j] && !(m->rooms[j].flags & ROOM_PATH)
-			&& !path_friend(m, j, path, len))
-			track_path(m, j, path, len, a);
-	while (++j < m->room_count)
-		if (m->links[j][room] && !(m->rooms[j].flags & ROOM_PATH)
-			&& !path_friend(m, j, path, len))
-			track_path(m, j, path, len, a);
-	m->rooms[room].flags &= ~(ROOM_PATH);
+		if (f->lem->links[room][j] && !(f->lem->rooms[j].flags & ROOM_PATH)
+			&& !path_friend(f->lem, j, path, len))
+			track_path(f, j, path, len);
+	while (++j < f->lem->room_count)
+		if (f->lem->links[j][room] && !(f->lem->rooms[j].flags & ROOM_PATH)
+			&& !path_friend(f->lem, j, path, len))
+			track_path(f, j, path, len);
+	f->lem->rooms[room].flags &= ~(ROOM_PATH);
 }
 
 void			find_paths(t_lem *lem)
 {
-	t_tab			paths;
+	t_finder		find;
 	t_room			*tmp_path[lem->room_count];
 
-	ft_tabini(&paths, sizeof(t_path));
-	track_path(lem, lem->start_room->id, tmp_path, 0, &paths);
-	lem->paths = (t_path*)paths.data;
-	lem->path_count = paths.length;
+	find.lem = lem;
+	ft_tabini(&(find.paths), sizeof(t_path));
+	track_path(&find, lem->start_room->id, tmp_path, 0);
+	lem->paths = (t_path*)find.paths.data;
+	lem->path_count = find.paths.length;
 }

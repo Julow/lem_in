@@ -6,7 +6,7 @@
 /*   By: juloo <juloo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/02 23:16:49 by juloo             #+#    #+#             */
-/*   Updated: 2015/06/08 18:13:24 by jaguillo         ###   ########.fr       */
+/*   Updated: 2015/06/09 14:25:13 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_bool	path_collide(t_lem *m, int path, int *solve, int len)
 	return (false);
 }
 
-STATIC int		solve_ticks(t_lem *lem, int *solve, int len)
+static int		solve_ticks(t_lem *lem, int *solve, int len)
 {
 	int				min_len;
 	int				max_diff;
@@ -56,7 +56,7 @@ STATIC int		solve_ticks(t_lem *lem, int *solve, int len)
 		sum_diff += lem->paths[solve[i]].length - min_len;
 	}
 	return ((lem->ant_count - (max_diff * len - sum_diff) + len - 1)
-		/ len + max_diff + min_len - 2);
+	/ len + max_diff + min_len - 2);
 }
 
 static void		solve_save(t_lem *lem, int *solve, int len)
