@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wstrconv.c                                      :+:      :+:    :+:   */
+/*   ft_dstradd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/09 11:37:41 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/07 23:08:47 by juloo            ###   ########.fr       */
+/*   Created: 2015/06/09 13:10:39 by jaguillo          #+#    #+#             */
+/*   Updated: 2015/06/09 14:06:38 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_wchar.h"
+#include "ft_dstr.h"
 
-int				ft_wstrconv(char *buff, wchar_t *wstr)
+void			ft_dstradd(t_dstr *str, char const *add, int length)
 {
-	int				i;
-	int				len;
-
-	len = 0;
-	i = -1;
-	while (wstr[++i] != 0)
-		len += ft_widetoa(buff + len, wstr[i]);
-	return (len);
+	if (length < 0)
+		length += ft_strlen(add) + 1;
+	if (DSTR_NEED(str, length))
+		ft_dstrextend(str, length);
+	ft_memcpy(str->str + str->length, add, length);
+	str->length += length;
+	str->str[str->length] = '\0';
 }

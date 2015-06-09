@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wstrconv.c                                      :+:      :+:    :+:   */
+/*   ft_dstrsub.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/09 11:37:41 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/07 23:08:47 by juloo            ###   ########.fr       */
+/*   Created: 2015/06/09 13:11:14 by jaguillo          #+#    #+#             */
+/*   Updated: 2015/06/09 13:11:31 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_wchar.h"
+#include "ft_dstr.h"
 
-int				ft_wstrconv(char *buff, wchar_t *wstr)
+t_sub			ft_dstrsub(t_dstr *str, int from, int to)
 {
-	int				i;
-	int				len;
-
-	len = 0;
-	i = -1;
-	while (wstr[++i] != 0)
-		len += ft_widetoa(buff + len, wstr[i]);
-	return (len);
+	if (from < 0)
+		from += str->length + 1;
+	if (to < 0)
+		to += str->length + 1;
+	return (SUB(str->str + from, to - from));
 }

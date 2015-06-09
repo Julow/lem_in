@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wstrconv.c                                      :+:      :+:    :+:   */
+/*   ft_dstrdestroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaguillo <jaguillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/09 11:37:41 by jaguillo          #+#    #+#             */
-/*   Updated: 2015/06/07 23:08:47 by juloo            ###   ########.fr       */
+/*   Created: 2015/06/09 14:07:58 by jaguillo          #+#    #+#             */
+/*   Updated: 2015/06/09 14:09:44 by jaguillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_wchar.h"
+#include "ft_dstr.h"
+#include <stdlib.h>
 
-int				ft_wstrconv(char *buff, wchar_t *wstr)
+void			ft_dstrdestroy(t_dstr *str)
 {
-	int				i;
-	int				len;
-
-	len = 0;
-	i = -1;
-	while (wstr[++i] != 0)
-		len += ft_widetoa(buff + len, wstr[i]);
-	return (len);
+	if (str->capacity > 0)
+		free(str->str);
+	str->capacity = 0;
+	str->length = 0;
+	str->str = "";
 }
